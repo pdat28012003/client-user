@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Năm Mới - Tết Ất Tỵ 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #FF6347 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background decorations */
+        .background-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* Falling petals */
+        .petal {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(ellipse at center, #FFD700 0%, #FFA500 100%);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Lanterns */
+        .lantern {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(to bottom, #FF0000 0%, #8B0000 100%);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.5);
+            animation: swing 3s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .lantern::before {
+            content: '福';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #FFD700;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .lantern::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 15px;
+            background: #FFD700;
+            border-radius: 0 0 50% 50%;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            text-align: center;
+            padding: 40px 20px;
+            z-index: 10;
+            background: linear-gradient(180deg, rgba(139, 0, 0, 0.8) 0%, rgba(139, 0, 0, 0) 100%);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5),
+                         0 0 20px rgba(255, 215, 0, 0.5);
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: #FFFFFF;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        /* Upload section */
+        .upload-section {
+            position: relative;
+            text-align: center;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            z-index: 10;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #8B0000;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+        }
+
+        .upload-info {
+            color: #FFD700;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* Main content */
+        main {
+            position: relative;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            z-index: 10;
+        }
+
+        /* Envelope container */
+        .envelope-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            justify-items: center;
+            padding: 20px;
+        }
+
+        /* Red envelope */
+        .envelope {
+            position: relative;
+            width: 180px;
+            height: 240px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            perspective: 1000px;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+        
+        .envelope:hover .envelope-front {
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+        }
+        
+        .envelope.has-image:hover::after {
+            content: '✨ Nhấn để xem';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 215, 0, 0.9);
+            color: #8B0000;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 100;
+        }
+
+        .envelope.shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .envelope-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .envelope.opened .envelope-inner {
+            transform: rotateY(180deg);
+        }
+
+        .envelope-front,
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .envelope-front {
+            background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%);
+            border: 3px solid #FFD700;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .envelope-front::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                transparent 40%, 
+                rgba(255, 215, 0, 0.1) 50%, 
+                transparent 60%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .envelope-pattern {
+            font-size: 60px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .envelope-text {
+            color: #FFD700;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .envelope-back {
+            background: linear-gradient(135deg, #FFF8DC 0%, #FAFAD2 100%);
+            border: 3px solid #FFD700;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .envelope-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .envelope-image {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #FFD700;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .envelope-message {
+            color: #8B0000;
+            font-size: 12px;
+            text-align: center;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .placeholder-icon {
+            font-size: 60px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .placeholder-text {
+            color: #8B0000;
+            font-size: 13px;
+            text-align: center;
+            padding: 10px;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            text-align: center;
+            padding: 40px 20px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(139, 0, 0, 0.8) 0%, rgba(139, 0, 0, 0) 100%);
+        }
+
+        .footer-message {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Fireworks */
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: explode 1.5s ease-out;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .envelope-container {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 20px;
+            }
+
+            .envelope {
+                width: 150px;
+                height: 200px;
+            }
+
+            .envelope-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        /* Instructions modal */
+        .instructions {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #FFD700;
+            max-width: 500px;
+            z-index: 1000;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.5s;
+        }
+
+        .instructions.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        .instructions h2 {
+            color: #8B0000;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .instructions p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #8B0000;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Decoration -->
+    <div class="background-decoration" id="bgDecoration"></div>
+
+    <!-- Instructions Modal -->
+    <div class="instructions" id="instructions">
+        <h2>🎊 Hướng dẫn sử dụng</h2>
+        <p>📱 <strong>Bước 1:</strong> Nhấn vào nút "📤 Chọn Ảnh" để tải ảnh của bạn lên</p>
+        <p>🧧 <strong>Bước 2:</strong> Chọn một bao lì xì màu đỏ để gán ảnh vào</p>
+        <p>✨ <strong>Bước 3:</strong> Nhấn vào bao lì xì đã gán ảnh để mở và xem!</p>
+        <p>🎉 <strong>Lưu ý:</strong> Bạn có thể tải nhiều ảnh và gán vào các bao lì xì khác nhau</p>
+        <button class="close-btn" onclick="closeInstructions()">Đã hiểu! 🎆</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>🎆 CHÚC MỪNG NĂM MỚI 🎆</h1>
+        <div class="subtitle">✨ An Khang Thịnh Vượng - Vạn Sự Như Ý ✨</div>
+    </header>
+
+    <!-- Upload Section -->
+    <div class="upload-section">
+        <input type="file" id="fileInput" accept="image/*">
+        <div class="upload-info" id="uploadInfo">
+            💡 Nhấn vào từng bao lì xì để tải ảnh lên cho bao đó.
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="envelope-container" id="envelopeContainer">
+            <!-- Envelopes will be generated by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-message">
+            🏮 Xuân về mang đến niềm vui mới 🏮<br>
+            🌸 Phúc lộc đầy nhà, tài lộc vào cửa 🌸<br>
+            🎋 Chúc gia đình bạn năm mới an khang, hạnh phúc, thịnh vượng! 🎋
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const NUM_ENVELOPES = 9;
+        const NUM_PETALS = 30;
+        const NUM_LANTERNS = 4;
+        
+        let pendingEnvelopeId = null;
+        let envelopeData = {};
+
+        // Initialize
+        window.onload = function() {
+            createBackgroundElements();
+            createEnvelopes();
+            loadEnvelopeData();
+            setupFileInput();
+            createFireworks();
+        };
+
+        function closeInstructions() {
+            document.getElementById('instructions').classList.add('hidden');
+        }
+
+        // Create background elements
+        function createBackgroundElements() {
+            const bg = document.getElementById('bgDecoration');
+            
+            // Create falling petals
+            for (let i = 0; i < NUM_PETALS; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                petal.style.animationDelay = Math.random() * 5 + 's';
+                bg.appendChild(petal);
+            }
+            
+            // Create lanterns
+            const positions = [
+                { left: '5%', top: '10%' },
+                { left: '90%', top: '15%' },
+                { left: '10%', top: '50%' },
+                { left: '85%', top: '55%' }
+            ];
+            
+            for (let i = 0; i < NUM_LANTERNS; i++) {
+                const lantern = document.createElement('div');
+                lantern.className = 'lantern';
+                lantern.style.left = positions[i].left;
+                lantern.style.top = positions[i].top;
+                lantern.style.animationDelay = (i * 0.5) + 's';
+                bg.appendChild(lantern);
+            }
+        }
+
+        // Create envelopes
+        function createEnvelopes() {
+            const container = document.getElementById('envelopeContainer');
+            const messages = [
+                'Phát Tài Phát Lộc',
+                'Vạn Sự Như Ý',
+                'Tài Lộc Dồi Dào',
+                'Sức Khỏe Dồi Dào',
+                'Hạnh Phúc Viên Mãn',
+                'Công Danh Thăng Tiến',
+                'Gia Đình Hạnh Phúc',
+                'Tình Duyên Như Mơ',
+                'An Khang Thịnh Vượng',
+                'Gia đình đoàn viên',
+            ];
+            
+            for (let i = 0; i < NUM_ENVELOPES; i++) {
+                const envelope = document.createElement('div');
+                envelope.className = 'envelope';
+                envelope.dataset.id = i;
+                
+                envelope.innerHTML = `
+                    <div class="envelope-inner">
+                        <div class="envelope-front">
+                            <div class="envelope-pattern">🧧</div>
+                            <div class="envelope-text">${messages[i]}</div>
+                        </div>
+                        <div class="envelope-back">
+                            <div class="envelope-content" id="content-${i}">
+                                <div class="placeholder-icon">🎁</div>
+                                <div class="placeholder-text">Nhấn vào đây sau khi<br>chọn ảnh để gán ảnh vào!</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                envelope.addEventListener('click', function() {
+                    handleEnvelopeClick(i);
+                });
+                
+                container.appendChild(envelope);
+            }
+        }
+
+        // Setup file input
+        function setupFileInput() {
+            const fileInput = document.getElementById('fileInput');
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files && e.target.files[0] ? e.target.files[0] : null;
+                const envelopeId = pendingEnvelopeId;
+                pendingEnvelopeId = null;
+
+                if (!file || envelopeId === null || envelopeId === undefined) {
+                    fileInput.value = '';
+                    return;
+                }
+
+                uploadImageForEnvelope(envelopeId, file).finally(() => {
+                    fileInput.value = '';
+                });
+            });
+        }
+
+        function updateUploadInfo() {
+            const info = document.getElementById('uploadInfo');
+            info.innerHTML = '💡 Nhấn vào từng bao lì xì để tải ảnh lên cho bao đó.';
+            info.style.color = '#FFD700';
+        }
+
+        // Handle envelope click
+        function handleEnvelopeClick(id) {
+            const envelope = document.querySelector(`[data-id="${id}"]`);
+            
+            // Check if this envelope already has an image
+            const hasImage = envelopeData[id] && envelopeData[id].image;
+            
+            if (hasImage) {
+                envelope.classList.toggle('opened');
+                if (envelope.classList.contains('opened')) {
+                    createFireworkBurst(envelope);
+                }
+                return;
+            }
+
+            pendingEnvelopeId = id;
+            document.getElementById('fileInput').click();
+        }
+
+        function updateEnvelopeContent(id) {
+            const content = document.getElementById(`content-${id}`);
+            const data = envelopeData[id];
+            
+            if (data) {
+                content.innerHTML = `
+                    <img src="${data.image}" class="envelope-image" alt="Ảnh lì xì">
+                    <div class="envelope-message">${data.message}</div>
+                `;
+            }
+        }
+
+        // Create firework burst
+        function createFireworkBurst(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const colors = ['#FFD700', '#FFA500', '#FF6347', '#FF69B4'];
+            
+            for (let i = 0; i < 20; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = centerX + 'px';
+                firework.style.top = centerY + 'px';
+                
+                const angle = (Math.PI * 2 * i) / 20;
+                const velocity = 50 + Math.random() * 50;
+                const x = Math.cos(angle) * velocity;
+                const y = Math.sin(angle) * velocity;
+                
+                firework.style.setProperty('--x', x + 'px');
+                firework.style.setProperty('--y', y + 'px');
+                firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                document.body.appendChild(firework);
+                
+                setTimeout(() => firework.remove(), 1500);
+            }
+        }
+
+        // Create random fireworks
+        function createFireworks() {
+            setInterval(() => {
+                if (Math.random() < 0.3) {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight * 0.6;
+                    
+                    const temp = document.createElement('div');
+                    temp.style.position = 'fixed';
+                    temp.style.left = x + 'px';
+                    temp.style.top = y + 'px';
+                    document.body.appendChild(temp);
+                    
+                    createFireworkBurst(temp);
+                    setTimeout(() => temp.remove(), 100);
+                }
+            }, 3000);
+        }
+
+        // localStorage functions
+        function saveEnvelopeData() {
+            localStorage.setItem('tetEnvelopeData', JSON.stringify(envelopeData));
+        }
+
+        function loadEnvelopeData() {
+            fetch('/api/envelopes')
+                .then((res) => res.json())
+                .then((data) => {
+                    envelopeData = {};
+                    Object.keys(data || {}).forEach((key) => {
+                        const item = data[key];
+                        if (item && item.envelopeId !== undefined && item.url) {
+                            envelopeData[item.envelopeId] = {
+                                image: item.url,
+                                message: 'Chúc bạn năm mới<br>tràn đầy niềm vui!'
+                            };
+                        }
+                    });
+
+                    Object.keys(envelopeData).forEach((id) => {
+                        updateEnvelopeContent(id);
+                        const envelope = document.querySelector(`[data-id="${id}"]`);
+                        if (envelope) {
+                            envelope.classList.add('has-image');
+                        }
+                    });
+                })
+                .catch((_e) => {
+                    updateUploadInfo();
+                });
+        }
+
+        async function uploadImageForEnvelope(envelopeId, file) {
+            const info = document.getElementById('uploadInfo');
+            info.innerHTML = `⏳ Đang tải ảnh lên cho bao lì xì #${envelopeId + 1}...`;
+            info.style.color = '#FFD700';
+
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('envelopeId', String(envelopeId));
+
+            const res = await fetch('/api/uploads', { method: 'POST', body: formData });
+
+            let data;
+            try {
+                data = await res.json();
+            } catch (_e) {
+                data = null;
+            }
+
+            if (!res.ok) {
+                const message = data && data.error ? data.error : `Upload failed (${res.status})`;
+                info.innerHTML = `❌ Upload lỗi: ${message}`;
+                info.style.color = '#FFD700';
+                setTimeout(() => updateUploadInfo(), 3500);
+                return;
+            }
+
+            envelopeData[envelopeId] = {
+                image: data.url,
+                message: 'Chúc bạn năm mới<br>tràn đầy niềm vui!'
+            };
+            updateEnvelopeContent(envelopeId);
+
+            const envelope = document.querySelector(`[data-id="${envelopeId}"]`);
+            if (envelope) {
+                envelope.classList.add('has-image');
+                envelope.classList.add('shake');
+                setTimeout(() => {
+                    envelope.classList.remove('shake');
+                    envelope.classList.add('opened');
+                    createFireworkBurst(envelope);
+                }, 500);
+            }
+
+            info.innerHTML = `✅ Đã tải ảnh lên cho bao lì xì #${envelopeId + 1}.`;
+            info.style.color = '#FFD700';
+            setTimeout(() => updateUploadInfo(), 2500);
+        }
+
+        // Show instructions on first visit
+        if (!localStorage.getItem('tetVisited')) {
+            localStorage.setItem('tetVisited', 'true');
+        }
+    </script>
+</body>
+</html>
